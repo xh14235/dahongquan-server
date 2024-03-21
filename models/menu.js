@@ -9,6 +9,7 @@ const schema = new mongoose.Schema({
   needLogin: { type: Boolean },
   isKeep: { type: Boolean },
   showInNav: { type: Boolean },
+  isFront: { type: Boolean },
 });
 
 module.exports = mongoose.model("menu", schema);
