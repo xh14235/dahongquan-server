@@ -4,6 +4,7 @@ module.exports = (app) => {
   const menu = require("../../models/menu");
   const setting = require("../../models/setting");
   const banner = require("../../models/banner");
+  const artical = require("../../models/artical");
 
   // 前端菜单
   router.post("/menuList", async (req, res) => {
@@ -23,6 +24,12 @@ module.exports = (app) => {
   router.get("/bannerList", async (req, res) => {
     const items = await banner.find().limit(100);
     res.send(items);
+  });
+
+  // 文章详情
+  router.post("/articalInfo", async (req, res) => {
+    const detail = await artical.findOne({ code: { $eq: req.body.code } });
+    res.send(detail);
   });
 
   app.use("/web/api", router);
