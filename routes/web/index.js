@@ -28,9 +28,7 @@ module.exports = (app) => {
 
   // 文章详情
   router.post("/articalInfo", async (req, res) => {
-    const { code, id } = req.body;
-    console.log(code);
-    console.log(id);
+    const { code, id } = req.body;\
     const params = code ? { code: { $eq: code } } : { _id: { $eq: id } };
     const detail = await artical.findOne(params);
     res.send(detail);
