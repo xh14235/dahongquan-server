@@ -28,8 +28,30 @@ module.exports = (app) => {
 
   // 文章详情
   router.post("/articalInfo", async (req, res) => {
-    const detail = await artical.findOne({ code: { $eq: req.body.code } });
+    const { code, id } = req.body;
+    console.log(code);
+    console.log(id);
+    const params = code ? { code: { $eq: code } } : { _id: { $eq: id } };
+    const detail = await artical.findOne(params);
     res.send(detail);
+  });
+  // 文章列表
+  router.post("/articalList", async (req, res) => {
+    const { category, pageNo, pageSize } = req.body;
+    treuCategory = category ? { category: { $eq: category } } : null;
+    truePageNo = pageNo || 1;
+    truePageSize = pageSize || 10;
+    const total = await artical.find(treuCategory).count();
+    const datas = await artical
+      .find(treuCategory)
+      .skip((truePageNo - 1) * truePageSize)
+      .limit(truePageSize);
+    res.send({
+      datas: datas || [],
+      pageNo: truePageNo,
+      pageSize: truePageSize,
+      total: total || 0,
+    });
   });
 
   app.use("/web/api", router);
