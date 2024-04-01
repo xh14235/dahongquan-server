@@ -5,6 +5,7 @@ const schema = new mongoose.Schema({
   title: { type: String },
   code: { type: String },
   time: { type: Date },
+  imgUrl: { type: String },
   desc: { type: String },
   content: { type: String },
 });

@@ -29,8 +29,8 @@ module.exports = (app) => {
   // 文章详情
   router.post("/articalInfo", async (req, res) => {
     const { code, id } = req.body;
-    console.log(code);
-    console.log(id);
+    // console.log(code);
+    // console.log(id);
     const params = code ? { code: { $eq: code } } : { _id: { $eq: id } };
     const detail = await artical.findOne(params);
     res.send(detail);
@@ -38,12 +38,12 @@ module.exports = (app) => {
   // 文章列表
   router.post("/articalList", async (req, res) => {
     const { category, pageNo, pageSize } = req.body;
-    treuCategory = category ? { category: { $eq: category } } : null;
+    trueCategory = category ? { category: { $eq: category } } : null;
     truePageNo = pageNo || 1;
     truePageSize = pageSize || 10;
-    const total = await artical.find(treuCategory).count();
+    const total = await artical.find(trueCategory).count();
     const datas = await artical
-      .find(treuCategory)
+      .find(trueCategory)
       .skip((truePageNo - 1) * truePageSize)
       .limit(truePageSize);
     res.send({
