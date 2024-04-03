@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
   parent: { type: String },
+  order: { type: String },
   title: { type: String },
   path: { type: String },
   components: { type: String },
