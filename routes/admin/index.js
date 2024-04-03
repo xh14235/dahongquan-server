@@ -6,6 +6,7 @@ module.exports = (app) => {
   const articalCategory = require("../../models/articalCategory");
   const artical = require("../../models/artical");
   const setting = require("../../models/setting");
+  const banner = require("../../models/banner");
 
   const assert = require("http-assert");
   const jwt = require("jsonwebtoken");
@@ -134,6 +135,20 @@ module.exports = (app) => {
     res.send({ success: true });
   });
 
+  // banner图
+  router.post("/addBanner", authMiddleware(), async (req, res) => {
+    const model = await banner.create(req.body);
+    res.send(model);
+  });
+  router.get("/bannerList", authMiddleware(), async (req, res) => {
+    const items = await banner.find().limit(100);
+    res.send(items);
+  });
+  router.delete("/deleteBanner", authMiddleware(), async (req, res) => {
+    await banner.findByIdAndDelete(req.query.id);
+    res.send({ success: true });
+  });
+
   // 基础设置
   router.get("/baseSetting", async (req, res) => {
     const items = await setting.find({}).sort({ _id: -1 }).limit(1);
@@ -154,6 +169,7 @@ module.exports = (app) => {
     });
   });
 
+  // 图片上传
   const multer = require("multer");
   const upload = multer({ dest: __dirname + "/../../uploads" });
   app.post(

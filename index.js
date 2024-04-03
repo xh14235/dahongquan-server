@@ -9,7 +9,10 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 
 app.set("secret", "14235");
 
+// 后台接口
 require("./routes/admin")(app);
+// 前端接口
+require("./routes/web")(app);
 require("./plugins/db")(app);
 
 app.listen(3000, () => {

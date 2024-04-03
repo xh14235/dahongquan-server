@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
   parent: { type: String },
+  order: { type: String },
   title: { type: String },
   path: { type: String },
   components: { type: String },
@@ -9,6 +10,7 @@ const schema = new mongoose.Schema({
   needLogin: { type: Boolean },
   isKeep: { type: Boolean },
   showInNav: { type: Boolean },
+  isFront: { type: Boolean },
 });
 
 module.exports = mongoose.model("menu", schema);
