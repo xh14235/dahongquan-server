@@ -144,6 +144,14 @@ module.exports = (app) => {
     const items = await banner.find().limit(100);
     res.send(items);
   });
+  router.get("/bannerInfo", authMiddleware(), async (req, res) => {
+    const detail = await banner.findById(req.query.id);
+    res.send(detail);
+  });
+  router.put("/editBanner", authMiddleware(), async (req, res) => {
+    const model = await banner.findByIdAndUpdate(req.body._id, req.body);
+    res.send(model);
+  });
   router.delete("/deleteBanner", authMiddleware(), async (req, res) => {
     await banner.findByIdAndDelete(req.query.id);
     res.send({ success: true });
