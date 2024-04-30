@@ -7,6 +7,7 @@ module.exports = (app) => {
   const artical = require("../../models/artical");
   const setting = require("../../models/setting");
   const banner = require("../../models/banner");
+  const message = require("../../models/message");
 
   const assert = require("http-assert");
   const jwt = require("jsonwebtoken");
@@ -165,6 +166,33 @@ module.exports = (app) => {
   router.post("/editSetting", authMiddleware(), async (req, res) => {
     const model = await setting.create(req.body);
     res.send(model);
+  });
+
+  // 留言
+  router.post("/messageList", authMiddleware(), async (req, res) => {
+    const { kewword, pageNo, pageSize } = req.body;
+    treuKeyword = kewword ? { kewword: { $eq: kewword } } : null;
+    truePageNo = pageNo || 1;
+    truePageSize = pageSize || 10;
+    const total = await message.find(treuKeyword).count();
+    const datas = await message
+      .find(treuKeyword)
+      .skip((truePageNo - 1) * truePageSize)
+      .limit(truePageSize);
+    res.send({
+      datas: datas || [],
+      pageNo: truePageNo,
+      pageSize: truePageSize,
+      total: total || 0,
+    });
+  });
+  router.get("/messageInfo", authMiddleware(), async (req, res) => {
+    const detail = await message.findById(req.query.id);
+    res.send(detail);
+  });
+  router.delete("/deleteMessage", authMiddleware(), async (req, res) => {
+    await message.findByIdAndDelete(req.query.id);
+    res.send({ success: true });
   });
 
   app.use("/admin/api", router);

@@ -5,6 +5,7 @@ module.exports = (app) => {
   const setting = require("../../models/setting");
   const banner = require("../../models/banner");
   const artical = require("../../models/artical");
+  const message = require("../../models/message");
 
   // 前端菜单
   router.post("/menuList", async (req, res) => {
@@ -52,6 +53,12 @@ module.exports = (app) => {
       pageSize: truePageSize,
       total: total || 0,
     });
+  });
+
+  // 留言
+  router.post("/addMessage", async (req, res) => {
+    const model = await message.create(req.body);
+    res.send(model);
   });
 
   app.use("/web/api", router);
