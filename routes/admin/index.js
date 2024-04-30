@@ -171,7 +171,7 @@ module.exports = (app) => {
   // 留言
   router.post("/messageList", authMiddleware(), async (req, res) => {
     const { kewword, pageNo, pageSize } = req.body;
-    treuKeyword = kewword ? { kewword: { $eq: kewword } } : null;
+    treuKeyword = kewword ? { name: { $eq: kewword } } : null;
     truePageNo = pageNo || 1;
     truePageSize = pageSize || 10;
     const total = await message.find(treuKeyword).count();
