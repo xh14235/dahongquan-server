@@ -8,7 +8,7 @@ module.exports = () => {
     const token = authHeader && authHeader.split(" ")[1];
     assert(token, 401, "请提供token");
     const { id } = jwt.verify(token, req.app.get("secret"));
-    assert(token, 401, "无效的token");
+    assert(id, 401, "无效的token");
     req.user = await user.findById(id);
     assert(req.user, 401, "请先登录");
     await next();
